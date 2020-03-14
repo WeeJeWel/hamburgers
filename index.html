@@ -1,0 +1,206 @@
+<!doctype html>
+<html>
+	<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>GratisHamburgersApp</title>
+		<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+			-webkit-tap-highlight-color: transparent;
+		}
+		
+		@font-face
+		{
+			font-family: MuseoSlab;
+			src: url('fonts/Museo Slab/MuseoSlab-500.otf');
+		} 
+		
+		@font-face
+		{
+			font-family: FlamaCondensed;
+			src: url('fonts/Flama Condensed/FlamaCondensed-Medium.otf');
+		} 
+		
+		html {
+			
+			width: 720px;
+			height: 1230px;
+		}
+		
+		body {
+			width: 720px;
+			height: 1230px;
+			background: #163304 url(img/ref1.png) no-repeat center top;
+			position: relative;
+		}
+		
+		body.activate {
+			background-image: url(img/ref2.png);
+		}
+		
+		#date {
+			font-family: MuseoSlab;
+			color: #163304;
+			
+			position: absolute;
+			top: 218px;
+			left: 0;
+			right: 0;
+			text-align: center;
+			font-size: 33px;
+		}
+		body.activate #date {
+			display: none;
+		}
+		
+		#activate {
+			position: absolute;
+			top: 550px;
+			left: 130px;
+			right: 130px;
+			height: 70px;
+		}
+		
+		#ref2 {
+			display: none;
+		}
+		body.activate #ref2 {
+			display: block;
+		}
+		#pattern {
+			position: absolute;
+			left: 80px;
+			right: 80px;
+			top: 650px;
+			
+			width: 560px;
+			height: 182px;
+			background: url(img/pattern.png) repeat-x;
+			-webkit-animation: anim 2.5s;
+			-webkit-animation-timing-function: linear;
+			-webkit-animation-iteration-count: infinite;
+			
+			border-radius: 8px;
+			overflow: hidden;
+		}
+		
+		@-webkit-keyframes anim
+		{
+			from {
+				background-position: 0% 0%;
+			}
+			to {
+				background-position: -100% 0%;
+			}
+		}
+
+		
+		#overlay {
+			position: absolute;
+			left: 80px;
+			right: 80px;
+			top: 650px;
+			
+			height: 190px;
+			width: 560px;
+			
+			background: url(img/overlay.png) no-repeat;
+		}
+		
+		#clock {
+			position: absolute;
+			left: 330px;
+			right: 330px;
+			top: 830px;
+			height: 30px;
+			text-align: center;
+			color: white;
+			
+			font-family: FlamaCondensed;
+			font-size: 30px;
+		}
+		
+		#reload {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			height: 50px;
+		}
+		</style>
+		
+		<script type="text/javascript">
+		var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'];
+		
+		
+		window.onload = function(){
+			document.getElementById('activate').onclick = activate;
+			
+			document.getElementById('reload').onclick = function(){
+				window.location.reload()
+			};
+			
+			// valid until
+			var now = new Date();
+			var then = new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000);
+			
+			var day = then.getDate();
+			var month = monthNames[ then.getMonth() ];
+			var year = then.getFullYear();
+			
+			document.getElementById('date').innerHTML = day + ' ' + month + ', ' + year;
+			
+			//activate();
+		}
+		
+		var activate = function(){
+			document.body.className = 'activate';
+			startClock();
+		}
+		
+		var clockInterval;
+		var clockStatus = 120;
+		var startClock = function(){
+			setInterval(function(){
+			
+				if( clockStatus < 1 ) return false;
+				
+				clockStatus--;
+			
+				var minutes = Math.floor(clockStatus / 60);
+				var seconds = clockStatus % 60;
+								
+				if( (minutes + '').length == 1 ) {
+					minutes = '0' + minutes;
+				}
+				
+				if( (seconds + '').length == 1 ) {
+					seconds = '0' + seconds;
+				}
+			
+				document.getElementById('clock').innerHTML = minutes + ':' + seconds;
+			}, 1000);
+		}
+		</script>
+	</head>
+	<body>
+	
+		<span id="date">16 Sep, 2013</span>
+		
+		<div id="activate"></div>
+		
+		<div id="ref2">
+			<div id="pattern">
+			</div>
+			<div id="overlay">
+				
+			</div>
+			
+			<div id="clock">01:55</div>
+		</div>
+		
+		<div id="reload"></div>
+	
+	</body>
+</html>
